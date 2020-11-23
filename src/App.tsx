@@ -7,7 +7,7 @@ const App:FunctionComponent = () => (
     <header className="App-header">
       <p>Hello d66</p>
     </header>
-  </div> 
+  </div>
 )
 
 export default App

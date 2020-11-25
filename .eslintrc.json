@@ -14,7 +14,8 @@
       "@typescript-eslint/semi": [2, "never"],
       "react/no-unused-prop-types": "off",
       "react/prop-types": "off",
-      "class-methods-use-this": "off"
+      "class-methods-use-this": "off",
+      "@typescript-eslint/no-var-requires": "off"
   },
   "globals": {
   },

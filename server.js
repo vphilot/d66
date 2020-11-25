@@ -1,7 +1,5 @@
 // Dependencies
 const express = require('express')
-const app = express()
-const path = require('path')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
@@ -10,6 +8,7 @@ const { listUsers, createUser, listUserGoals } = require('./api/controllers/user
 
 // Constants
 const PORT = 8080
+const app = express()
 
 app.use(bodyParser.json())
 
@@ -23,8 +22,6 @@ app.get('/api/users/:userFirstName', listUserGoals)
 
 app.post('/api/users', createUser)
 
-
-app.listen(PORT, function() {
-  console.log(`App is running on Port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`App is running on Port ${PORT}`)
 })
-

@@ -18,11 +18,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve"
   },
   "include": [
-    "./src",
     "./api",
-    "./server.js"
+    "**/*.ts",
+    "**/*.tsx",
+    "./server.js",
+    "./src/ts/**/*"
   ]
 }

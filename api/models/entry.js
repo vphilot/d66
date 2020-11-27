@@ -7,7 +7,7 @@ const { Schema } = mongoose
 // Schemas
 const EntrySchema = new Schema({
   date: Date,
-  state: 'bad'| 'neutral' | 'good',
+  state: String,
 })
 
 module.exports = EntrySchema

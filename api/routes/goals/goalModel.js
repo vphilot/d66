@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 // Models
-const EntrySchema = require('./entry')
+const EntrySchema = require('../entries/entryModel')
 
 // Constants
 const { Schema } = mongoose

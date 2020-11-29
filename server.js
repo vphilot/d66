@@ -1,26 +1,24 @@
 // Dependencies
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
-// Controllers
-const { listUsers, createUser, listUserGoals } = require('./api/controllers/user')
+// Routes
+const userRouter = require('./api/routes/users/userRoutes')
 
 // Constants
 const PORT = 8080
 const app = express()
 
-app.use(bodyParser.json())
+app.use(cookieParser())
+app.use(express.json())
+
+app.use('/api/users', userRouter)
 
 mongoose.connect('mongodb://localhost/d66', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-
-app.get('/api/users', listUsers)
-app.get('/api/users/:userFirstName', listUserGoals)
-
-app.post('/api/users', createUser)
 
 app.listen(PORT, () => {
   console.log(`App is running on Port ${PORT}`)

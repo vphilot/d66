@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 // Models
-const GoalSchema = require('./goal')
+const GoalSchema = require('../goals/goalModel')
 
 // Constants
 const { Schema } = mongoose
@@ -11,6 +11,8 @@ const { Schema } = mongoose
 const UserSchema = new Schema({
   firstName: String,
   lastName: String,
+  email: String,
+  password: String,
   goals: [GoalSchema],
 })
 

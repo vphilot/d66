@@ -9,16 +9,13 @@ const listUsers = (req, res) => {
 
 const createUser = (req, res, next) => {
   const user = new User(req.body)
-  console.log(user)
   user.save()
     .then(() => res.sendStatus(200))
     .catch((err) => console.log(err))
 }
 
-// TODO check why user goals is returninng the whole reference to the User Object
 const listUserGoals = async (req, res) => {
   const { userFirstName } = req.params
-  console.log(userFirstName)
   const user = await User.findOne({ firstName: userFirstName })
     .populate({
       path: 'goals.user',

@@ -18,13 +18,18 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "react-jsx"
   },
+  "defaultSeverity": "warning",
   "include": [
     "./api",
     "**/*.ts",
     "**/*.tsx",
     "./server.js",
-    "./src/ts/**/*"
+    "./src/ts/**/*",
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

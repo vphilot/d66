@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 
 // Styles
-import './App.css'
+import './styles/Fonts.css'
 import './fonts/SpaceGrotesk-Regular.woff'
 import './fonts/SpaceGrotesk-Regular.woff2'
 import './fonts/SpaceGrotesk-Bold.woff'

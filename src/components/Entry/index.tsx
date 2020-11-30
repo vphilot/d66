@@ -25,7 +25,7 @@ const Entry:FunctionComponent<EntryType> = ({
   const classes = useStyles()
 
   return (
-    <div className="entry">
+    <div className={classes.entry}>
       <p>{ date }</p>
       <p>{ state }</p>
     </div>

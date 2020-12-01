@@ -11,6 +11,7 @@ import { D66ThemeType } from '../../../styles/Theme'
 
 // Internal Components
 import Logo from '../../Molecules/Logo'
+import Disclaimer from '../../Molecules/Disclaimer'
 
 // Styles
 const useStyles = createUseStyles((theme:D66ThemeType) => ({
@@ -89,9 +90,7 @@ const Home:FunctionComponent = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Typography variant="body2" className={classes.disclaimer}>
-        This app does not sell your data or uses it to undermine democracy.
-      </Typography>
+      <Disclaimer />
     </>
   )
 }

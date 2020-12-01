@@ -1,9 +1,10 @@
 // Dependencies
 import React, { FunctionComponent } from 'react'
 import { createUseStyles } from 'react-jss'
+import { Link } from 'react-router-dom'
 
 // External Components
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
@@ -28,7 +29,9 @@ const Logo:FunctionComponent = () => {
     <Grid container className={classes.logoContainer}>
       <Grid item xs={12} md={6}>
         <Grid item xs={6} md={4}>
-          <img src={logoSource} alt="d66 logo" />
+          <Link to="/">
+            <img src={logoSource} alt="d66 logo" />
+          </Link>
         </Grid>
       </Grid>
     </Grid>

@@ -5,17 +5,26 @@ import { createUseStyles } from 'react-jss'
 // External Components
 import { Grid, TextField, Button } from '@material-ui/core'
 
-// Internal Components
+// Style Components
 import { D66ThemeType } from '../../../styles/Theme'
+
+// Internal Components
+import Logo from '../../Molecules/Logo'
 
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
-  form: {
+  signUpForm: {
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.colors.red,
     },
     '& label': {
       color: theme.colors.red,
+    },
+    '& .MuiFormControl-fullWidth': {
+      marginBottom: `${theme.spacing.base}px`,
+    },
+    '& button:hover': {
+      boxShadow: theme.boxShadow,
     },
   },
 }))
@@ -43,7 +52,7 @@ const Signup: FunctionComponent = () => {
         }),
       })
       if (response.ok) {
-        alert('user created successfully!')
+        alert(`${response} user created successfully!`)
       } else {
         console.log('Error saving record')
       }
@@ -54,9 +63,10 @@ const Signup: FunctionComponent = () => {
 
   return (
     <>
-      <form className={classes.form} onSubmit={handleSignUp}>
+      <Logo />
+      <form className={classes.signUpForm} onSubmit={handleSignUp}>
         <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <TextField
               id="firstName"
               label="First Name"
@@ -66,8 +76,6 @@ const Signup: FunctionComponent = () => {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
-          </Grid>
-          <Grid item xs={12}>
             <TextField
               id="lastName"
               label="Last Name"
@@ -77,8 +85,6 @@ const Signup: FunctionComponent = () => {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
-          </Grid>
-          <Grid item xs={12}>
             <TextField
               id="email"
               label="Email"
@@ -88,8 +94,6 @@ const Signup: FunctionComponent = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </Grid>
-          <Grid item xs={12}>
             <TextField
               id="password"
               label="Password"
@@ -100,11 +104,17 @@ const Signup: FunctionComponent = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="outlined" color="primary" type="submit">
-              Sign up
-            </Button>
+            <Grid item xs={12} md={4}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                fullWidth
+                disableRipple
+              >
+                Sign up
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>

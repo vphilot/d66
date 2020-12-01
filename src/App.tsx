@@ -17,7 +17,6 @@ import BaseStyles from './styles/BaseStyles'
 import { d66Theme, muiTheme } from './styles/Theme'
 
 // Internal Components
-
 import { Home, Signup } from './components'
 // TODO remove this component entirely
 import ListUsers from './components/Organisms/ListUsers'

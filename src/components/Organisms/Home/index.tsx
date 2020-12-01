@@ -1,15 +1,16 @@
 // Dependencies
 import React, { FunctionComponent } from 'react'
 import { createUseStyles } from 'react-jss'
+import { useHistory } from 'react-router-dom'
 
 // External Components
 import { Grid, Typography, Button } from '@material-ui/core'
 
-// Internal Components
+// Style Components
 import { D66ThemeType } from '../../../styles/Theme'
 
-// Asset imports
-import Logo from '../../../images/logo.svg'
+// Internal Components
+import Logo from '../../Molecules/Logo'
 
 // Styles
 const useStyles = createUseStyles((theme:D66ThemeType) => ({
@@ -31,12 +32,6 @@ const useStyles = createUseStyles((theme:D66ThemeType) => ({
       boxShadow: theme.boxShadow,
     },
   },
-  logoContainer: {
-    margin: '80px 0',
-    '& img': {
-      width: '100%',
-    },
-  },
   buttonContainer: {
     paddingTop: `${theme.spacing.base}px`,
   },
@@ -48,16 +43,13 @@ const useStyles = createUseStyles((theme:D66ThemeType) => ({
 
 const Home:FunctionComponent = () => {
   const classes = useStyles()
+  const history = useHistory()
 
   return (
     <>
+      <Logo />
       <Grid container spacing={2} className={classes.homeContainer}>
         <Grid item xs={12} md={6}>
-          <Grid container className={classes.logoContainer}>
-            <Grid item xs={6} md={4}>
-              <img src={Logo} alt="d66 logo" />
-            </Grid>
-          </Grid>
           <Typography variant="h2" component="h1">
             Changing is hard.
             <br />
@@ -79,6 +71,7 @@ const Home:FunctionComponent = () => {
                 color="primary"
                 fullWidth
                 disableRipple
+                onClick={() => history.push('/signup')}
               >
                 Sign Up
               </Button>

@@ -54,6 +54,9 @@ export const muiTheme = createMuiTheme({
     primary: {
       main: d66Theme.colors.red,
     },
+    error: {
+      main: d66Theme.colors.dark,
+    },
     text: {
       primary: d66Theme.colors.red,
       secondary: d66Theme.colors.dark,

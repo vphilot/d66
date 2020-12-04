@@ -17,7 +17,7 @@ import BaseStyles from './styles/BaseStyles'
 import { d66Theme, muiTheme } from './styles/Theme'
 
 // Internal Components
-import { Home, Signup } from './components'
+import { Home, Signup, Login } from './components'
 // TODO remove this component entirely
 import ListUsers from './components/Organisms/ListUsers'
 
@@ -41,6 +41,11 @@ const App:FunctionComponent = () => {
                   exact
                   path="/signup"
                   render={() => <Signup />}
+                />
+                <Route
+                  exact
+                  path="/login"
+                  render={() => <Login />}
                 />
                 <Route
                   path="/"

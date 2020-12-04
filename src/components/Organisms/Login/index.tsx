@@ -21,9 +21,12 @@ import { D66ThemeType } from '../../../styles/Theme'
 import Logo from '../../Molecules/Logo'
 import Disclaimer from '../../Molecules/Disclaimer'
 
+// Util
+import { validateInputHelper } from '../../../util/helpers'
+
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
-  signUpForm: {
+  loginForm: {
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.colors.red,
     },
@@ -43,19 +46,12 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
 }))
 
 // Constants
-const validationExpressions:Record<string, RegExp> = {
-  email: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-  password: /^(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/,
-  generic: /^[a-zA-Z0-9- ]{3,15}$/,
-}
-
-const validateInput = (type:string, term:string):boolean => validationExpressions[type].test(term)
 
 const generateValidateInputIcon = (type:string, term:string):JSX.Element => {
   if (term === '') {
     return null
   }
-  if (validateInput(type, term)) {
+  if (validateInputHelper(type, term)) {
     return <DoneIcon />
   }
   return <ErrorIcon />
@@ -65,28 +61,24 @@ const Signup: FunctionComponent = () => {
   const classes = useStyles()
   const history = useHistory()
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSignUp = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName,
-          lastName,
           email,
           password,
         }),
       })
       if (response.ok) {
-        alert('user created successfully!')
+        alert('login was successful!')
       } else {
-        console.log('Error saving record')
+        alert('error logging in')
       }
     } catch (error) {
       throw error
@@ -96,45 +88,12 @@ const Signup: FunctionComponent = () => {
   return (
     <>
       <Logo />
-      {/* Email Signup */}
-      <form className={classes.signUpForm} onSubmit={handleSignUp}>
+      <form className={classes.loginForm} onSubmit={handleSignUp}>
         <Grid container>
           <Grid item xs={12} md={6}>
             <Typography variant="h4" component="h1">
-              Sign up using your email:
+              Log in with your email:
             </Typography>
-            <TextField
-              id="firstName"
-              label="First Name"
-              variant="outlined"
-              color="primary"
-              fullWidth
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    { generateValidateInputIcon('generic', firstName) }
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              id="lastName"
-              label="Last Name"
-              variant="outlined"
-              color="primary"
-              fullWidth
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    { generateValidateInputIcon('generic', lastName) }
-                  </InputAdornment>
-                ),
-              }}
-            />
             <TextField
               id="email"
               label="Email"
@@ -168,9 +127,6 @@ const Signup: FunctionComponent = () => {
                 ),
               }}
             />
-            <Typography variant="caption">
-              At least 6 characters, must include a number
-            </Typography>
             <Grid container spacing={2} className={classes.buttonContainer}>
               <Grid item xs={6} md={4}>
                 <Button
@@ -181,10 +137,8 @@ const Signup: FunctionComponent = () => {
                   disableRipple
                   disabled={
                     !(
-                      validateInput('generic', firstName)
-                      && validateInput('generic', lastName)
-                      && validateInput('email', email)
-                      && validateInput('password', password)
+                      validateInputHelper('email', email)
+                      && validateInputHelper('password', password)
                     )
                   }
                 >
@@ -195,27 +149,6 @@ const Signup: FunctionComponent = () => {
           </Grid>
         </Grid>
       </form>
-      {/* Link to Login */}
-      <Grid container>
-        <Grid item xs={12} md={6}>
-          <Typography variant="h4" component="h1">
-            Already have an account?
-          </Typography>
-          <Grid container spacing={2} className={classes.buttonContainer}>
-            <Grid item xs={6} md={4}>
-              <Button
-                variant="outlined"
-                color="primary"
-                fullWidth
-                disableRipple
-                onClick={() => history.push('/login')}
-              >
-                Log in
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
       <Disclaimer />
     </>
   )

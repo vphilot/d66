@@ -7,16 +7,18 @@ import Logo from './Molecules/Logo'
 import Disclaimer from './Molecules/Disclaimer'
 
 // Organisms
-import Signup from './Organisms/Signup'
-import ListUsers from './Organisms/ListUsers'
 import Home from './Organisms/Home'
+import Signup from './Organisms/Signup'
+import Login from './Organisms/Login'
+import ListUsers from './Organisms/ListUsers'
 
 export {
   Entry,
   Goal,
   Logo,
   Disclaimer,
-  Signup,
-  ListUsers,
   Home,
+  Signup,
+  Login,
+  ListUsers,
 }

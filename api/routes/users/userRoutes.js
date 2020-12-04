@@ -17,10 +17,6 @@ const validateInput = (input) => {
   return false
 }
 
-const checkForExistingEmail = async (email) => {
-  return await findUserByEmail(email)
-}
-
 // Constants
 const router = express.Router()
 
@@ -35,9 +31,13 @@ router.route('/:firstName')
   .get(async (req, res) => {
     try {
       const goals = await listUserGoals(req.params.firstName)
-      res.send({ data: { goals } })
+      res.send({
+        data: { goals },
+      })
     } catch (e) {
-      res.status(400).json({ message: `user ${req.params.firstName} not found` })
+      res.status(400).json({ 
+        message: `user ${req.params.firstName} not found`,
+      })
     }
   })
 
@@ -59,8 +59,11 @@ router.route('/')
     ) {
       try {
         // check if the email is already in use
-        if (checkForExistingEmail) {
-          res.status(400).json({message: 'email already in use'})
+        const isEmailAlreadyUsed = await findUserByEmail(email)
+        if (isEmailAlreadyUsed) {
+          res.status(400).json({
+            message: 'email already in use',
+          })
           return
         }
         // if not in use, procceed with user creation
@@ -68,10 +71,15 @@ router.route('/')
         res.json({ data: { id: user._id } })
       } catch (e) {
         // 500 = database error
-        res.status(500).json({message: 'internal server error'})
+        res.status(500).json({
+          message: 'internal server error',
+        })
       }
     }
-    // TODO return falsy route
+    // validation failed
+    res.status(400).json({
+      messsage: 'input validation failed',
+    })
   })
 
 module.exports = router

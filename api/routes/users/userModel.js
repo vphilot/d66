@@ -13,10 +13,14 @@ const UserSchema = new Schema({
   firstName: {
     type: String,
     required: true,
+    min: 3,
+    max: 15,
   },
   lastName: {
     type: String,
     required: true,
+    min: 3,
+    max: 15,
   },
   email: {
     type: String,
@@ -37,8 +41,8 @@ UserSchema.pre('save', async function (next) {
       user.password = await bcrypt.hash(user.password, 12)
     }
     next()
-  } catch (error) {
-    next(error)
+  } catch (err) {
+    next(err)
   }
 })
 

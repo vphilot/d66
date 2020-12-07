@@ -1,5 +1,10 @@
 // Dependencies
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -17,12 +22,36 @@ import BaseStyles from './styles/BaseStyles'
 import { d66Theme, muiTheme } from './styles/Theme'
 
 // Internal Components
-import { Home, Signup, Login } from './components'
+import {
+  Home,
+  Signup,
+  Login,
+  Main,
+} from './components'
 // TODO remove this component entirely
 import ListUsers from './components/Organisms/ListUsers'
 
 const App:FunctionComponent = () => {
-  console.log('app is running')
+  const [user, setUser] = useState(undefined)
+
+  const getUser = useCallback(async () => {
+    try {
+      const response = await fetch('/api/users/me')
+      const jsonResponse = await response.json()
+      if (!response.ok) {
+        throw new Error(jsonResponse.message)
+      }
+      setUser(jsonResponse.data)
+    } catch (err) {
+      setUser(undefined)
+    }
+  },
+  [])
+
+  useEffect(() => {
+    getUser()
+  },
+  [getUser])
 
   return (
     <>
@@ -49,7 +78,12 @@ const App:FunctionComponent = () => {
                 />
                 <Route
                   path="/"
-                  render={() => <Home />}
+                  render={() => {
+                    if (!user) {
+                      return <Home />
+                    }
+                    return <Main />
+                  }}
                 />
               </Switch>
             </Router>

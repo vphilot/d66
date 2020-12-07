@@ -50,7 +50,7 @@ const Home:FunctionComponent = () => {
     <>
       <Logo />
       <Grid container spacing={2} className={classes.homeContainer}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={12} md={8} lg={6}>
           <Typography variant="h2" component="h1">
             Changing is hard.
             <br />

@@ -32,8 +32,8 @@ const listUserGoals = async (firstName) => {
       })
     const userGoals = user.goals
     return userGoals
-  } catch (e) {
-    throw e
+  } catch (err) {
+    throw err
   }
 }
 
@@ -41,9 +41,24 @@ const findUserByEmail = async (email) => {
   try {
     const user = await User.findOne({ email })
     return user
-  } catch (e) {
-    throw e
+  } catch (err) {
+    throw err
   }
 }
 
-module.exports = { listUsers, createUser, listUserGoals, findUserByEmail }
+const findUserById = async (id) => {
+  try {
+    const user = await User.findById(id)
+    return user
+  } catch (err) {
+    throw err
+  }
+}
+
+module.exports = {
+  listUsers,
+  createUser,
+  listUserGoals,
+  findUserByEmail,
+  findUserById,
+}

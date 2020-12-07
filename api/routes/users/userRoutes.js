@@ -1,5 +1,9 @@
 // Dependencies
 const express = require('express')
+const { createTokenService } = require('../../tokens/tokenService')
+
+// Middleware
+const verifyToken = require('../../middleware/verifyToken')
 
 // Controllers
 const {
@@ -7,6 +11,7 @@ const {
   createUser,
   listUserGoals,
   findUserByEmail,
+  findUserById,
 } = require('./userController')
 
 // Helpers
@@ -21,25 +26,25 @@ const validateInput = (input) => {
 const router = express.Router()
 
 // Routes
-router.route('/')
-  .get(async (req, res) => {
-    const users = await listUsers()
-    res.json({ data: users })
-  })
+// router.route('/')
+//   .get(async (req, res) => {
+//     const users = await listUsers()
+//     return res.json({ data: users })
+//   })
 
-router.route('/:firstName')
-  .get(async (req, res) => {
-    try {
-      const goals = await listUserGoals(req.params.firstName)
-      return res.send({
-        data: { goals },
-      })
-    } catch (e) {
-      return res.status(400).json({ 
-        message: `user ${req.params.firstName} not found`,
-      })
-    }
-  })
+// router.route('/:firstName')
+//   .get(async (req, res) => {
+//     try {
+//       const goals = await listUserGoals(req.params.firstName)
+//       return res.send({
+//         data: { goals },
+//       })
+//     } catch (err) {
+//       return res.status(400).json({ 
+//         message: `user ${req.params.firstName} not found`,
+//       })
+//     }
+//   })
 
 router.route('/')
   // double verification on the back end, already validating on the UI
@@ -68,15 +73,15 @@ router.route('/')
         // if not in use, procceed with user creation
         const user = await createUser({ ...req.body })
         return res.json({ data: { id: user._id } })
-      } catch (e) {
+      } catch (err) {
         // 500 = database error
-        return res.status(500).json({
+        return res.sendStatus(500).json({
           message: 'internal server error',
         })
       }
     }
     // validation failed
-    return res.status(400).json({
+    return res.sendStatus(400).json({
       messsage: 'input validation failed',
     })
   })
@@ -96,29 +101,46 @@ router.route('/login')
         const user = await findUserByEmail(email)
         // user not found in DB
         if (!user) {
-          return res.status(400).json({
+          return res.sendStatus(400).json({
             message: 'password and email do not match',
           })
         }
         const isPasswordMatch = await user.comparePassword(password)
         // password match failed
         if (!isPasswordMatch) {
-          return res.status(400).json({
+          return res.sendStatus(400).json({
             message: 'password and email do not match',
           })
         }
-        // TODO implement token validation
-        res.status(200).json({
+        // happy path
+        const token = createTokenService({ id: user._id })
+        res.cookie('token', token)
+        return res.sendStatus(200).json({
           message: 'logged in successfully',
         })
-      } catch (e) {
-        console.log(e)
+      } catch (err) {
+        console.log(err)
       }
     }
     // validation failed
-    return res.status(400).json({
+    return res.sendStatus(400).json({
       messsage: 'input validation failed',
     })
+  })
+
+router.use(verifyToken)
+  .route('/me')
+  .get(async (req, res) => {
+    try {
+      const user = await findUserById(req.user.id)
+      return res.json({
+        data: user,
+      })
+    } catch (err) {
+      return res.sendStatus(500).json({
+        message: 'internal server error',
+      })
+    }
   })
 
 module.exports = router

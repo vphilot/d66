@@ -24,6 +24,7 @@ import Disclaimer from '../../Molecules/Disclaimer'
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
   signUpForm: {
+    marginBottom: `${theme.spacing.base * 2}px`,
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.colors.red,
     },
@@ -53,7 +54,7 @@ const validateInput = (type:string, term:string):boolean => validationExpression
 
 const generateValidateInputIcon = (type:string, term:string):JSX.Element => {
   if (term === '') {
-    return null
+    return <></>
   }
   if (validateInput(type, term)) {
     return <DoneIcon />
@@ -99,7 +100,7 @@ const Signup: FunctionComponent = () => {
       {/* Email Signup */}
       <form className={classes.signUpForm} onSubmit={handleSignUp}>
         <Grid container>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={12} md={8} lg={6}>
             <Typography variant="h4" component="h1">
               Sign up using your email:
             </Typography>

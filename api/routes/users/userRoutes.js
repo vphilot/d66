@@ -66,7 +66,7 @@ router.route('/')
         // check if the email is already in use
         const isEmailAlreadyUsed = await findUserByEmail(email)
         if (isEmailAlreadyUsed) {
-          return res.status(400).json({
+          return res.json({
             message: 'email already in use',
           })
         }
@@ -133,11 +133,11 @@ router.use(verifyToken)
   .get(async (req, res) => {
     try {
       const user = await findUserById(req.user.id)
-      return res.json({
+      res.json({
         data: user,
       })
     } catch (err) {
-      return res.sendStatus(500).json({
+      res.status(500).json({
         message: 'internal server error',
       })
     }

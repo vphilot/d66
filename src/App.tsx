@@ -69,7 +69,7 @@ const App:FunctionComponent = () => {
                 <Route
                   exact
                   path="/signup"
-                  render={() => <Signup getUser={getUser}/>}
+                  render={() => <Signup getUser={getUser} />}
                 />
                 <Route
                   exact

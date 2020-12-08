@@ -77,6 +77,7 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
 
       const jsonResponse = await response.json()
       if (!response.ok) {
+        console.log(jsonResponse.message)
         throw new Error(jsonResponse.message)
       }
 
@@ -94,6 +95,7 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
       const loginResponseJson = await loginResponse.json()
       if (!loginResponse.ok) {
         // TODO handle error in the UI
+        console.log(loginResponseJson.message)
         throw new Error(loginResponseJson.message)
       }
 

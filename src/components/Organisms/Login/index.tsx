@@ -158,6 +158,7 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
                     !(
                       validateInputHelper('email', email)
                       && validateInputHelper('password', password)
+                      && !error
                     )
                   }
                 >

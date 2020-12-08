@@ -66,8 +66,8 @@ router.route('/')
         // check if the email is already in use
         const isEmailAlreadyUsed = await findUserByEmail(email)
         if (isEmailAlreadyUsed) {
-          return res.json({
-            message: 'email already in use',
+          return res.status(400).json({
+            message: 'Email already in use',
           })
         }
         // if not in use, procceed with user creation
@@ -75,13 +75,13 @@ router.route('/')
         return res.json({ data: { id: user._id } })
       } catch (err) {
         // 500 = database error
-        return res.sendStatus(500).json({
+        return res.status(500).json({
           message: 'internal server error',
         })
       }
     }
     // validation failed
-    return res.sendStatus(400).json({
+    return res.status(400).json({
       messsage: 'input validation failed',
     })
   })

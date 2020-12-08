@@ -84,5 +84,15 @@ export const muiTheme = createMuiTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      root: {
+        color: d66Theme.colors.dark,
+      },
+    },
+    MuiChip: {
+      root: {
+        borderRadius: 5,
+      },
+    },
   },
 })

@@ -10,7 +10,11 @@ import {
   Button,
   Typography,
   InputAdornment,
+  Chip,
 } from '@material-ui/core'
+
+// Icons
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
@@ -43,6 +47,9 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
       boxShadow: theme.boxShadow,
     },
   },
+  chipContainer: {
+    marginTop: `${theme.spacing.base / 2}px`,
+  },
 }))
 
 // Types
@@ -58,11 +65,16 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    setError(null)
+  }, [email, password])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/users', {
+      const signUpResponse = await fetch('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,13 +87,13 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
         }),
       })
 
-      const jsonResponse = await response.json()
-      if (!response.ok) {
-        console.log(jsonResponse.message)
-        throw new Error(jsonResponse.message)
+      const signUpResponseJson = await signUpResponse.json()
+      if (!signUpResponse.ok) {
+        setError(signUpResponseJson.message)
+        return
       }
 
-      const loginResponse = await fetch('/api/login', {
+      const loginResponse = await fetch('/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,16 +106,15 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
 
       const loginResponseJson = await loginResponse.json()
       if (!loginResponse.ok) {
-        // TODO handle error in the UI
-        console.log(loginResponseJson.message)
-        throw new Error(loginResponseJson.message)
+        setError(loginResponseJson.message)
+        return
       }
 
       // happy path
       getUser()
       history.push('/')
-    } catch (error) {
-      throw error
+    } catch (err) {
+      throw err
     }
   }
 
@@ -156,7 +167,7 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
               color="primary"
               fullWidth
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.replace(/\s/g, ''))}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -165,6 +176,16 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
                 ),
               }}
             />
+            {error
+            && (
+              <Chip
+                icon={<PriorityHighIcon />}
+                label={error}
+                variant="default"
+                color="secondary"
+                className={classes.chipContainer}
+              />
+            )}
             <TextField
               id="password"
               label="Password"
@@ -199,6 +220,7 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
                       && validateInputHelper('generic', lastName)
                       && validateInputHelper('email', email)
                       && validateInputHelper('password', password)
+                      && !error
                     )
                   }
                 >
@@ -211,7 +233,7 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
       </form>
       {/* Link to Login */}
       <Grid container>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={12} md={8} lg={6}>
           <Typography variant="h4" component="h1">
             Already have an account?
           </Typography>

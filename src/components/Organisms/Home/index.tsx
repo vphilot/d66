@@ -1,7 +1,7 @@
 // Dependencies
 import React, { FunctionComponent } from 'react'
 import { createUseStyles } from 'react-jss'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 
 // External Components
 import { Grid, Typography, Button } from '@material-ui/core'
@@ -34,7 +34,7 @@ const useStyles = createUseStyles((theme:D66ThemeType) => ({
     },
   },
   buttonContainer: {
-    paddingTop: `${theme.spacing.base}px`,
+    padding: `${theme.spacing.base}px 0`,
   },
   disclaimer: {
     position: 'fixed',
@@ -88,6 +88,10 @@ const Home:FunctionComponent = () => {
               </Button>
             </Grid>
           </Grid>
+          <Typography variant="body1">
+            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+            Already have an account? <Link to="/login">Log in here</Link>.
+          </Typography>
         </Grid>
       </Grid>
       <Disclaimer />

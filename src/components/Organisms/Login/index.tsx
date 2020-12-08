@@ -11,8 +11,6 @@ import {
   Typography,
   InputAdornment,
 } from '@material-ui/core'
-import ErrorIcon from '@material-ui/icons/Error'
-import DoneIcon from '@material-ui/icons/Done'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
@@ -23,6 +21,7 @@ import Disclaimer from '../../Molecules/Disclaimer'
 
 // Util
 import { validateInputHelper } from '../../../util/helpers'
+import generateValidateInputIcon from '../../../util/generateValidateInputIcon'
 
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
@@ -45,26 +44,19 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
   },
 }))
 
-// Constants
-
-const generateValidateInputIcon = (type:string, term:string):JSX.Element => {
-  if (term === '') {
-    return null
-  }
-  if (validateInputHelper(type, term)) {
-    return <DoneIcon />
-  }
-  return <ErrorIcon />
+// Types
+type SignUpProps = {
+  getUser: () => Promise<void>,
 }
 
-const Signup: FunctionComponent = () => {
+const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
   const classes = useStyles()
   const history = useHistory()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSignUp = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const response = await fetch('/api/users/login', {
@@ -75,11 +67,16 @@ const Signup: FunctionComponent = () => {
           password,
         }),
       })
-      if (response.ok) {
-        alert('login was successful!')
-      } else {
-        alert('error logging in')
+      const jsonResponse = await response.json()
+
+      if (!response.ok) {
+        // TODO handle the error on the UI
+        throw new Error(jsonResponse.message)
       }
+
+      // happy path
+      getUser()
+      history.push('/')
     } catch (error) {
       throw error
     }
@@ -88,7 +85,7 @@ const Signup: FunctionComponent = () => {
   return (
     <>
       <Logo />
-      <form className={classes.loginForm} onSubmit={handleSignUp}>
+      <form className={classes.loginForm} onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={12} md={6}>
             <Typography variant="h4" component="h1">

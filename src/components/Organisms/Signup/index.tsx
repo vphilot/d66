@@ -11,8 +11,6 @@ import {
   Typography,
   InputAdornment,
 } from '@material-ui/core'
-import ErrorIcon from '@material-ui/icons/Error'
-import DoneIcon from '@material-ui/icons/Done'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
@@ -20,6 +18,10 @@ import { D66ThemeType } from '../../../styles/Theme'
 // Internal Components
 import Logo from '../../Molecules/Logo'
 import Disclaimer from '../../Molecules/Disclaimer'
+
+// Util
+import { validateInputHelper } from '../../../util/helpers'
+import generateValidateInputIcon from '../../../util/generateValidateInputIcon'
 
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
@@ -43,26 +45,12 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
   },
 }))
 
-// Constants
-const validationExpressions:Record<string, RegExp> = {
-  email: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-  password: /^(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/,
-  generic: /^[a-zA-Z0-9- ]{3,15}$/,
+// Types
+type SignUpProps = {
+  getUser: () => Promise<void>,
 }
 
-const validateInput = (type:string, term:string):boolean => validationExpressions[type].test(term)
-
-const generateValidateInputIcon = (type:string, term:string):JSX.Element => {
-  if (term === '') {
-    return <></>
-  }
-  if (validateInput(type, term)) {
-    return <DoneIcon />
-  }
-  return <ErrorIcon />
-}
-
-const Signup: FunctionComponent = () => {
+const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
   const classes = useStyles()
   const history = useHistory()
 
@@ -71,12 +59,14 @@ const Signup: FunctionComponent = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSignUp = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           firstName,
           lastName,
@@ -84,11 +74,32 @@ const Signup: FunctionComponent = () => {
           password,
         }),
       })
-      if (response.ok) {
-        alert('user created successfully!')
-      } else {
-        console.log('Error saving record')
+
+      const jsonResponse = await response.json()
+      if (!response.ok) {
+        throw new Error(jsonResponse.message)
       }
+
+      const loginResponse = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
+
+      const loginResponseJson = await loginResponse.json()
+      if (!loginResponse.ok) {
+        // TODO handle error in the UI
+        throw new Error(loginResponseJson.message)
+      }
+
+      // happy path
+      getUser()
+      history.push('/')
     } catch (error) {
       throw error
     }
@@ -98,7 +109,7 @@ const Signup: FunctionComponent = () => {
     <>
       <Logo />
       {/* Email Signup */}
-      <form className={classes.signUpForm} onSubmit={handleSignUp}>
+      <form className={classes.signUpForm} onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={12} sm={12} md={8} lg={6}>
             <Typography variant="h4" component="h1">
@@ -182,10 +193,10 @@ const Signup: FunctionComponent = () => {
                   disableRipple
                   disabled={
                     !(
-                      validateInput('generic', firstName)
-                      && validateInput('generic', lastName)
-                      && validateInput('email', email)
-                      && validateInput('password', password)
+                      validateInputHelper('generic', firstName)
+                      && validateInputHelper('generic', lastName)
+                      && validateInputHelper('email', email)
+                      && validateInputHelper('password', password)
                     )
                   }
                 >

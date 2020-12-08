@@ -10,7 +10,11 @@ import {
   Button,
   Typography,
   InputAdornment,
+  Chip,
 } from '@material-ui/core'
+
+// Icons
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
@@ -42,6 +46,9 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
       boxShadow: theme.boxShadow,
     },
   },
+  chipContainer: {
+    marginTop: `${theme.spacing.base}px`,
+  },
 }))
 
 // Types
@@ -55,6 +62,11 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    setError(undefined)
+  }, [email, password])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -70,15 +82,15 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
       const jsonResponse = await response.json()
 
       if (!response.ok) {
-        // TODO handle the error on the UI
-        throw new Error(jsonResponse.message)
+        setError(jsonResponse.message)
+        return
       }
 
       // happy path
       getUser()
       history.push('/')
-    } catch (error) {
-      throw error
+    } catch (err) {
+      throw err
     }
   }
 
@@ -124,6 +136,16 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
                 ),
               }}
             />
+            { error
+            && (
+              <Chip
+                icon={<PriorityHighIcon />}
+                label={error}
+                variant="default"
+                color="secondary"
+                className={classes.chipContainer}
+              />
+            )}
             <Grid container spacing={2} className={classes.buttonContainer}>
               <Grid item xs={6} md={4}>
                 <Button

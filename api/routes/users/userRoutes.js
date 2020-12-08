@@ -101,21 +101,21 @@ router.route('/login')
         const user = await findUserByEmail(email)
         // user not found in DB
         if (!user) {
-          return res.sendStatus(400).json({
+          return res.status(400).json({
             message: 'password and email do not match',
           })
         }
         const isPasswordMatch = await user.comparePassword(password)
         // password match failed
         if (!isPasswordMatch) {
-          return res.sendStatus(400).json({
+          return res.status(400).json({
             message: 'password and email do not match',
           })
         }
         // happy path
         const token = createTokenService({ id: user._id })
         res.cookie('token', token)
-        return res.sendStatus(200).json({
+        return res.status(200).json({
           message: 'logged in successfully',
         })
       } catch (err) {
@@ -123,7 +123,7 @@ router.route('/login')
       }
     }
     // validation failed
-    return res.sendStatus(400).json({
+    return res.status(400).json({
       messsage: 'input validation failed',
     })
   })

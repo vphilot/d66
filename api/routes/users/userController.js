@@ -2,11 +2,6 @@
 const User = require('./userModel')
 
 // Controller Methods
-const listUsers = async () => {
-  const users = User.find()
-  return users
-}
-
 const createUser = async ({
   firstName,
   lastName,
@@ -23,20 +18,6 @@ const createUser = async ({
   })
   const user = await newUser.save()
   return user
-}
-
-const listUserGoals = async (firstName) => {
-  try {
-    const user = await User.findOne({ firstName })
-      .populate({
-        path: 'goals.user',
-        model: 'User',
-      })
-    const userGoals = user.goals
-    return userGoals
-  } catch (err) {
-    throw err
-  }
 }
 
 const findUserByEmail = async (email) => {
@@ -58,9 +39,7 @@ const findUserById = async (id) => {
 }
 
 module.exports = {
-  listUsers,
   createUser,
-  listUserGoals,
   findUserByEmail,
   findUserById,
 }

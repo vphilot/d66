@@ -16,9 +16,10 @@ const GoalSchema = new Schema({
   title: String,
   description: String,
   dateCreated: Date,
-  entries: [EntrySchema],
+  entries: {
+    type: [EntrySchema],
+    default: [],
+  },
 })
 
-const GoalModel = mongoose.model('Goal', GoalSchema)
-
-module.exports = { GoalModel, GoalSchema }
+module.exports = GoalSchema

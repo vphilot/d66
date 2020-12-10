@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
 // Models
-const { GoalSchema } = require('../goals/goalModel')
+const GoalSchema = require('../goals/goalModel')
 
 // Constants
 const { Schema } = mongoose

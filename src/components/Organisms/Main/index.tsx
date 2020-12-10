@@ -18,8 +18,8 @@ import DoneIcon from '@material-ui/icons/Done'
 import { D66ThemeType } from '../../../styles/Theme'
 
 // Internal Components
-import Logo from '../../Molecules/Logo'
-import Disclaimer from '../../Molecules/Disclaimer'
+import AddGoal from '../../Goals/AddGoal'
+import GoalItem from '../../Goals/GoalItem'
 
 // Util
 import { validateInputHelper } from '../../../util/helpers'
@@ -46,7 +46,6 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
 }))
 
 // Constants
-
 const generateValidateInputIcon = (type:string, term:string):JSX.Element => {
   if (term === '') {
     return null
@@ -60,11 +59,36 @@ const generateValidateInputIcon = (type:string, term:string):JSX.Element => {
 const Main: FunctionComponent = () => {
   const classes = useStyles()
   const history = useHistory()
+  const [goals, setGoals] = useState(null)
+
+  const fetchGoals = async () => {
+    try {
+      const response = await fetch('/api/goals')
+      const jsonResponse = await response.json()
+      console.log(jsonResponse)
+      setGoals(jsonResponse.data)
+    } catch (err) {
+      console.error('Fetching all user goals failed with the error', err)
+    }
+  }
+
+  useEffect(() => {
+    fetchGoals()
+  }, [])
 
   return (
     <>
-      <Logo />
-      <p>This is where users are taken if logged in</p>
+      { goals
+      && goals.map((goal) => (
+        <GoalItem
+          title={goal.title}
+          description={goal.description}
+          dateCreated={goal.dateCreated}
+          entries={goal.entries}
+          key={goal._id}
+        />
+      ))}
+      <AddGoal fetchGoals={() => fetchGoals()} />
     </>
   )
 }

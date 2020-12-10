@@ -7,9 +7,7 @@ const verifyToken = require('../../middleware/verifyToken')
 
 // Controllers
 const {
-  listUsers,
   createUser,
-  listUserGoals,
   findUserByEmail,
   findUserById,
 } = require('./userController')
@@ -26,27 +24,6 @@ const validateInput = (input) => {
 const router = express.Router()
 
 // Routes
-
-// router.route('/')
-//   .get(async (req, res) => {
-//     const users = await listUsers()
-//     return res.json({ data: users })
-//   })
-
-// router.route('/:firstName')
-//   .get(async (req, res) => {
-//     try {
-//       const goals = await listUserGoals(req.params.firstName)
-//       return res.send({
-//         data: { goals },
-//       })
-//     } catch (err) {
-//       return res.status(400).json({ 
-//         message: `user ${req.params.firstName} not found`,
-//       })
-//     }
-//   })
-
 router.route('/')
   // double verification on the back end, already validating on the UI
   .post(async (req, res) => {

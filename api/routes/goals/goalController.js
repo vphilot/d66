@@ -1,27 +1,25 @@
 // Models
-const { GoalModel } = require('./goalModel')
+const User = require('../users/userModel')
 
 // Controller methods
-const getGoalsByUSer = async (userId) => {
+const getUserGoals = async (userId) => {
   try {
-    const goals = await GoalModel
-      .find({ user: userId })
-      .populate({ path: 'user', select: 'firstName lastName' })
-    return goals
+    const user = await User.findOne({ _id: userId })
+    return user.goals
   } catch (err) {
     throw err
   }
 }
 
-const createGoal = async (data) => {
+const createGoal = async (newGoal) => {
   try {
-    console.log(data)
-    const newGoal = new GoalModel(data)
-    const goal = await newGoal.save()
-    return goal.id
+    const user = await User.findOne({ _id: newGoal.user })
+    user.goals.push(newGoal)
+    const updated = await user.save()
+    return updated
   } catch (err) {
     throw err
   }
 }
 
-module.exports = { getGoalsByUSer, createGoal }
+module.exports = { createGoal, getUserGoals }

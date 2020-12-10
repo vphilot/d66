@@ -89,6 +89,15 @@ export const muiTheme = createMuiTheme({
       root: {
         color: d66Theme.colors.dark,
       },
+      notchedOutline: {
+        borderColor: d66Theme.colors.red,
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        color: d66Theme.colors.red,
+        borderColor: d66Theme.colors.red,
+      },
     },
     MuiChip: {
       root: {

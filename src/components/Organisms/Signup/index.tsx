@@ -31,12 +31,6 @@ import generateValidateInputIcon from '../../../util/generateValidateInputIcon'
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
   signUpForm: {
     marginBottom: `${theme.spacing.base * 2}px`,
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.colors.red,
-    },
-    '& label': {
-      color: theme.colors.red,
-    },
     '& .MuiFormControl-fullWidth': {
       marginTop: `${theme.spacing.base}px`,
     },
@@ -234,7 +228,7 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
       {/* Link to Login */}
       <Grid container>
         <Grid item xs={12} sm={12} md={8} lg={6}>
-          <Typography variant="h4" component="h1">
+          <Typography variant="h4" component="h2">
             Already have an account?
           </Typography>
           <Grid container spacing={2} className={classes.buttonContainer}>

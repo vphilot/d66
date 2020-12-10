@@ -7,7 +7,11 @@ const { Schema } = mongoose
 // Schemas
 const EntrySchema = new Schema({
   date: Date,
-  state: String,
+  state: {
+    type: String,
+    enum: ['bad', 'neutral', 'good'],
+    default: 'neutral',
+  },
 })
 
 module.exports = EntrySchema

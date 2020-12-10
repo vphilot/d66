@@ -1,6 +1,6 @@
-// Standalone Components
-import Entry from './Entry'
-import Goal from './Goal'
+// Goals
+import AddGoal from './Goals/AddGoal'
+import GoalItem from './Goals/GoalItem'
 
 // Molecules
 import Logo from './Molecules/Logo'
@@ -13,8 +13,7 @@ import Signup from './Organisms/Signup'
 import Login from './Organisms/Login'
 
 export {
-  Entry,
-  Goal,
+  AddGoal,
   Logo,
   Disclaimer,
   Home,

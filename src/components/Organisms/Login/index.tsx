@@ -30,12 +30,6 @@ import generateValidateInputIcon from '../../../util/generateValidateInputIcon'
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
   loginForm: {
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.colors.red,
-    },
-    '& label': {
-      color: theme.colors.red,
-    },
     '& .MuiFormControl-fullWidth': {
       marginTop: `${theme.spacing.base}px`,
     },

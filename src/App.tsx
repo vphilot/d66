@@ -28,8 +28,6 @@ import {
   Login,
   Main,
 } from './components'
-// TODO remove this component entirely
-import ListUsers from './components/Organisms/ListUsers'
 
 const App:FunctionComponent = () => {
   const [user, setUser] = useState(undefined)
@@ -43,6 +41,7 @@ const App:FunctionComponent = () => {
       }
       setUser(jsonResponse.data)
     } catch (err) {
+      console.error('Get user failed with error: ', err)
       setUser(undefined)
     }
   },
@@ -61,11 +60,6 @@ const App:FunctionComponent = () => {
           <Container maxWidth="lg">
             <Router>
               <Switch>
-                <Route
-                  exact
-                  path="/listusers"
-                  render={() => <ListUsers />}
-                />
                 <Route
                   exact
                   path="/signup"

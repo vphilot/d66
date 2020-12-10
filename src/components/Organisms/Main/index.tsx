@@ -1,65 +1,31 @@
 // Dependencies
 import React, { FunctionComponent, useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import { createUseStyles } from 'react-jss'
 
 // External Components
-import {
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  InputAdornment,
-} from '@material-ui/core'
-import ErrorIcon from '@material-ui/icons/Error'
-import DoneIcon from '@material-ui/icons/Done'
-
-// Style Components
-import { D66ThemeType } from '../../../styles/Theme'
+import { Grid, Button } from '@material-ui/core'
 
 // Internal Components
 import AddGoal from '../../Goals/AddGoal'
 import GoalItem from '../../Goals/GoalItem'
+import Tip from '../../Molecules/Tip'
 
-// Util
-import { validateInputHelper } from '../../../util/helpers'
+// Style Components
+import { D66ThemeType } from '../../../styles/Theme'
 
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
-  loginForm: {
-    '& .MuiFormControl-fullWidth': {
-      marginTop: `${theme.spacing.base}px`,
-    },
-  },
-  buttonContainer: {
-    paddingTop: `${theme.spacing.base}px`,
-    '& button:hover': {
-      boxShadow: theme.boxShadow,
-    },
-  },
+  main: {},
 }))
 
-// Constants
-const generateValidateInputIcon = (type:string, term:string):JSX.Element => {
-  if (term === '') {
-    return null
-  }
-  if (validateInputHelper(type, term)) {
-    return <DoneIcon />
-  }
-  return <ErrorIcon />
-}
-
 const Main: FunctionComponent = () => {
-  const classes = useStyles()
-  const history = useHistory()
   const [goals, setGoals] = useState(null)
+  const [isAdding, setIsAdding] = useState(false)
 
   const fetchGoals = async () => {
     try {
       const response = await fetch('/api/goals')
       const jsonResponse = await response.json()
-      console.log(jsonResponse)
       setGoals(jsonResponse.data)
     } catch (err) {
       console.error('Fetching all user goals failed with the error', err)
@@ -72,17 +38,24 @@ const Main: FunctionComponent = () => {
 
   return (
     <>
-      { goals
-      && goals.map((goal) => (
-        <GoalItem
-          title={goal.title}
-          description={goal.description}
-          dateCreated={goal.dateCreated}
-          entries={goal.entries}
-          key={goal._id}
-        />
-      ))}
+      {/* handle adding a new goal */}
       <AddGoal fetchGoals={() => fetchGoals()} />
+      {/* display all goals */}
+      { goals
+      && goals.map((goal, index) => (
+        <React.Fragment key={goal._id}>
+          <GoalItem
+            id={goal._id}
+            title={goal.title}
+            description={goal.description}
+            dateCreated={goal.dateCreated}
+            entries={goal.entries}
+            fetchGoals={() => fetchGoals()}
+          />
+          { index === 0
+          && <Tip />}
+        </React.Fragment>
+      ))}
     </>
   )
 }

@@ -71,17 +71,20 @@ export const muiTheme = createMuiTheme({
       root: {
         '&:hover': {
           backgroundColor: d66Theme.colors.red,
+          boxShadow: d66Theme.boxShadow,
         },
       },
       containedPrimary: {
         '&:hover': {
           backgroundColor: d66Theme.colors.red,
+          boxShadow: d66Theme.boxShadow,
         },
       },
       outlinedPrimary: {
         border: `1px solid ${d66Theme.colors.red}`,
         '&:hover': {
           backgroundColor: 'transparent',
+          boxShadow: d66Theme.boxShadow,
         },
       },
     },
@@ -97,6 +100,21 @@ export const muiTheme = createMuiTheme({
       root: {
         color: d66Theme.colors.red,
         borderColor: d66Theme.colors.red,
+      },
+    },
+    MuiIconButton: {
+      root: {
+        padding: 0,
+      },
+      colorPrimary: {
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      },
+    },
+    MuiSvgIcon: {
+      root: {
+        fontSize: '30px',
       },
     },
     MuiChip: {

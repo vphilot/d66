@@ -22,4 +22,15 @@ const createGoal = async (newGoal) => {
   }
 }
 
-module.exports = { createGoal, getUserGoals }
+const deleteGoal = async (existingGoal) => {
+  try {
+    const user = await User.findOne({ _id: existingGoal.user })
+    // pull is a mongoose method
+    user.goals.pull({ _id: existingGoal.id })
+    await user.save()
+  } catch (err) {
+    throw err
+  }
+}
+
+module.exports = { createGoal, getUserGoals, deleteGoal }

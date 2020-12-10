@@ -26,12 +26,6 @@ const useStyles = createUseStyles((theme:D66ThemeType) => ({
     '& p': {
       marginBottom: `${theme.spacing.base}px`,
     },
-    '& strong': {
-      fontWeight: theme.font.weight.bold,
-    },
-    '& button:hover': {
-      boxShadow: theme.boxShadow,
-    },
   },
   buttonContainer: {
     padding: `${theme.spacing.base}px 0`,

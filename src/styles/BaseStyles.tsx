@@ -30,6 +30,9 @@ const useStyles = createUseStyles({
     'article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section': {
       display: 'block',
     },
+    strong: {
+      fontWeight: d66Theme.font.weight.bold,
+    },
     img: {
       maxWidth: '100%',
       height: 'auto',

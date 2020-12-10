@@ -25,6 +25,7 @@ const months = [
 ]
 
 export const generateStringFromDate = (date:Date):string => {
+  // parse normally if it's a Date object
   if (date instanceof Date && date.getMonth()) {
     const dateMonth:number = date.getMonth()
     const dateDay:number = date.getDate()
@@ -33,5 +34,6 @@ export const generateStringFromDate = (date:Date):string => {
       `${months[dateMonth].substr(0, 3)} ${dateDay} ${dateYear}`
     )
   }
-  return null
+  // call the function again passing a correct Date object
+  return generateStringFromDate(new Date(date))
 }

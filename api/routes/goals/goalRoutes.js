@@ -5,7 +5,7 @@ const express = require('express')
 const verifyToken = require('../../middleware/verifyToken')
 
 // Controllers
-const { createGoal, getUserGoals } = require('./goalController')
+const { createGoal, getUserGoals, deleteGoal } = require('./goalController')
 
 // Helpers
 
@@ -47,6 +47,29 @@ router.route('/')
       console.log(err)
       res.status(500).json({
         message: 'error creating new goal',
+      })
+    }
+  })
+
+router.route('/')
+  .delete(async (req, res) => {
+    try {
+      const { body } = req
+      if (!body.id || body.id === '') {
+        return res.status(400).json({
+          message: 'current goal Id must be provided',
+        })
+      }
+      const existingGoal = {
+        user: req.user.id,
+        id: body.id,
+      }
+      await deleteGoal(existingGoal)
+      res.json({ data: existingGoal.id })
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({
+        message: 'error deleting goal',
       })
     }
   })

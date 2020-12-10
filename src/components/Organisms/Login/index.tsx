@@ -36,9 +36,6 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
   },
   buttonContainer: {
     paddingTop: `${theme.spacing.base}px`,
-    '& button:hover': {
-      boxShadow: theme.boxShadow,
-    },
   },
   chipContainer: {
     marginTop: `${theme.spacing.base}px`,

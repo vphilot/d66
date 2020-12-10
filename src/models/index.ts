@@ -1,9 +1,10 @@
-export type Entry = {
+export interface Entry {
   data:Date,
   state: string,
 }
 
-export type Goal = {
+export interface Goal {
+  id: string,
   title: string,
   description: string,
   dateCreated: Date,

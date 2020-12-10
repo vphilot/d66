@@ -27,12 +27,6 @@ import { validateInputHelper } from '../../../util/helpers'
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
   loginForm: {
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.colors.red,
-    },
-    '& label': {
-      color: theme.colors.red,
-    },
     '& .MuiFormControl-fullWidth': {
       marginTop: `${theme.spacing.base}px`,
     },

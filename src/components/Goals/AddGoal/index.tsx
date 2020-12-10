@@ -8,7 +8,6 @@ import {
   TextField,
   Button,
   Typography,
-  InputAdornment,
 } from '@material-ui/core'
 
 // Util
@@ -73,7 +72,7 @@ const AddGoal:FunctionComponent<AddGoalProps> = ({ fetchGoals }) => {
   return (
     <>
       <form className={classes.addGoalForm} onSubmit={handleSubmit}>
-        <Grid container>
+        <Grid container justify="center">
           <Grid item xs={12} sm={12} md={8} lg={6}>
             <Typography variant="h4" component="h2">
               Add a new goal
@@ -88,29 +87,33 @@ const AddGoal:FunctionComponent<AddGoalProps> = ({ fetchGoals }) => {
               onChange={(e) => setTitle(e.target.value)}
             />
             <TextField
-              id="title"
-              label="title"
+              id="description"
+              label="description"
               variant="outlined"
               color="primary"
               fullWidth
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              fullWidth
-              disableRipple
-              disabled={
-                !(
-                  validateInputHelper('generic', title)
-                  && !error
-                )
-              }
-            >
-              Continue
-            </Button>
+            <Grid container spacing={2} className={classes.buttonContainer}>
+              <Grid item xs={6} md={4}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  fullWidth
+                  disableRipple
+                  disabled={
+                    !(
+                      validateInputHelper('generic', title)
+                      && !error
+                    )
+                  }
+                >
+                  Continue
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </form>

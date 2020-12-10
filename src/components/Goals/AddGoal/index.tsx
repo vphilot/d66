@@ -24,7 +24,7 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
     },
   },
   addGoalContainer: {
-    paddding: theme.spacing.base * 2,
+    padding: `${theme.spacing.base * 2}px`,
   },
   buttonContainer: {
     paddingTop: `${theme.spacing.base}px`,

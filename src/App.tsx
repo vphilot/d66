@@ -76,7 +76,7 @@ const App:FunctionComponent = () => {
                     if (!user) {
                       return <Home />
                     }
-                    return <Main />
+                    return <Main setUser={setUser} />
                   }}
                 />
               </Switch>

@@ -106,6 +106,21 @@ router.route('/login')
     })
   })
 
+router.route('/logout')
+  .post(async (req, res) => {
+    console.log('hitting the log out route')
+    try {
+      res.clearCookie('token')
+      return res.status(200).json({
+        message: 'logged out successfully',
+      })
+    } catch (err) {
+      res.status(500).json({
+        message: 'could not log out user',
+      })
+    }
+  })
+
 router.use(verifyToken)
   .route('/me')
   .get(async (req, res) => {

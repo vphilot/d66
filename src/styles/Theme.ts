@@ -79,6 +79,7 @@ export const muiTheme = createMuiTheme({
         },
       },
       outlinedPrimary: {
+        border: `1px solid ${d66Theme.colors.red}`,
         '&:hover': {
           backgroundColor: 'transparent',
         },

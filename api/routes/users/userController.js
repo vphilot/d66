@@ -1,5 +1,7 @@
+// Models
 const User = require('./userModel')
 
+// Controller Methods
 const listUsers = async () => {
   const users = User.find()
   return users

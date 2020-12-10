@@ -26,6 +26,7 @@ const validateInput = (input) => {
 const router = express.Router()
 
 // Routes
+
 // router.route('/')
 //   .get(async (req, res) => {
 //     const users = await listUsers()

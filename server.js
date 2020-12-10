@@ -7,6 +7,7 @@ require('dotenv').config()
 
 // Routes
 const userRouter = require('./api/routes/users/userRoutes')
+const goalRouter = require('./api/routes/goals/goalRoutes')
 
 // Constants
 const PORT = 8080
@@ -16,6 +17,7 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.use('/api/users', userRouter)
+app.use('/api/goals', goalRouter)
 
 mongoose.connect('mongodb://localhost/d66', {
   useNewUrlParser: true,

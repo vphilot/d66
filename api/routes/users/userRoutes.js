@@ -108,7 +108,6 @@ router.route('/login')
 
 router.route('/logout')
   .post(async (req, res) => {
-    console.log('hitting the log out route')
     try {
       res.clearCookie('token')
       return res.status(200).json({

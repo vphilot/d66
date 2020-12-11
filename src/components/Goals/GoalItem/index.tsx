@@ -1,6 +1,7 @@
 // Dependencies
 import React, { FunctionComponent, useState } from 'react'
 import { createUseStyles } from 'react-jss'
+import moment from 'moment'
 
 // External components
 import {
@@ -16,14 +17,14 @@ import CloseIcon from '@material-ui/icons/Close'
 import DeleteGoal from '../DeleteGoal'
 import Entry from '../../Entry'
 
-// Util
-import { generateStringFromDate } from '../../../util/helpers'
-
 // Data Access
 import { Goal, Entry as EntryType } from '../../../models'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
+
+// Util
+import { generateStringFromDate } from '../../../util/helpers'
 
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
@@ -107,7 +108,7 @@ const GoalItem:FunctionComponent<GoalItemProps> = ({
               <Typography variant="caption" component="p" className={classes.dateCreated}>
                 created on
                 {' '}
-                { generateStringFromDate(dateCreated) }
+                { moment(dateCreated).format('ddd, MMM Do') }
               </Typography>
               <Typography variant="body1" component="p" className={classes.description}>
                 { description }

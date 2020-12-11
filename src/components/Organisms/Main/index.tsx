@@ -52,7 +52,7 @@ const Main: FunctionComponent<MainProps> = ({ setUser }) => {
       {/* display all goals */}
       { goals
       && goals
-        .sort((a, b) => a.dateCreated < b.dateCreated)
+        .sort((a, b) => new Date(b.dateCreated).valueOf() - new Date(a.dateCreated).valueOf())
         .map((goal, index) => (
           <React.Fragment key={goal._id}>
             <GoalItem

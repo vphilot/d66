@@ -45,6 +45,7 @@ const Main: FunctionComponent<MainProps> = ({ setUser }) => {
   return (
     <>
       <AppBar setUser={setUser} />
+      {/* TODO add your first goal message */}
       {/* handle adding a new goal */}
       <AddGoal fetchGoals={() => fetchGoals()} />
       {/* display all goals */}

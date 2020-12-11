@@ -15,11 +15,27 @@ import { D66ThemeType } from '../../../styles/Theme'
 
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
-  title: {
-    paddingBottom: `${theme.spacing.base / 2}px`,
-  },
-  buttonContainer: {
+  appBar: {
     paddingTop: `${theme.spacing.base}px`,
+    paddingBottom: `${theme.spacing.base}px`,
+    borderBottom: `1px solid ${theme.colors.red}`,
+    '& a': {
+      color: 'inherit',
+      textDecoration: 'none',
+      fontWeight: theme.font.weight.normal,
+    },
+    '& a:hover': {
+      textDecoration: 'underline',
+    },
+    // MuiButton overrides
+    '& button': {
+      fontSize: 'inherit',
+    },
+    '& button:hover': {
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+      textDecoration: 'underline',
+    },
   },
 }))
 
@@ -42,6 +58,8 @@ const AppBar:FunctionComponent <AppBarProps> = ({ setUser }) => {
       if (!response.ok) {
         throw new Error(jsonResponse.message)
       }
+      // resetting state on the main app
+      // will trigger a reload
       setUser(undefined)
       history.push('/logout')
     } catch (err) {
@@ -50,28 +68,45 @@ const AppBar:FunctionComponent <AppBarProps> = ({ setUser }) => {
   }
 
   return (
-    <Grid container>
-      <Grid item xs={2}>
-        <Link to="/">
-          <strong>d66</strong>
-        </Link>
+    <Grid container alignItems="center" justify="space-between" className={classes.appBar}>
+      <Grid item xs={3} md={3}>
+        <Typography variant="h4">
+          <Link to="/">
+            <strong>d66</strong>
+          </Link>
+        </Typography>
       </Grid>
-      <Grid item xs={2}>
-        <Link to="/">
-          <strong>My Goals</strong>
-        </Link>
-      </Grid>
-      <Grid item xs={2}>
-        <Link to="/timeline">
-          <strong>My Timeline</strong>
-        </Link>
-      </Grid>
-      <Grid item xs={2}>
-        <Button
-          onClick={() => logOut()}
-        >
-          <strong>Log out</strong>
-        </Button>
+      <Grid item xs={9} md={4}>
+        <Grid container alignItems="center">
+          <Grid item xs={4}>
+            <Typography variant="body1">
+              <Link to="/">
+                My Goals
+              </Link>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body1">
+              <Link to="/timeline">
+                My Timeline
+              </Link>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body1">
+              <Button
+                variant="text"
+                color="primary"
+                disableRipple
+                disableElevation
+                disableFocusRipple
+                onClick={() => logOut()}
+              >
+                Log out
+              </Button>
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   )

@@ -50,7 +50,7 @@ const DeleteGoal:FunctionComponent<DeleteGoalProps> = ({ setIsDeleting, goalTitl
         . Are you sure?
       </Typography>
       <Grid container spacing={2} className={classes.buttonContainer}>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <Button
             variant="contained"
             color="primary"
@@ -62,7 +62,7 @@ const DeleteGoal:FunctionComponent<DeleteGoalProps> = ({ setIsDeleting, goalTitl
             Go back
           </Button>
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <Button
             variant="outlined"
             color="primary"

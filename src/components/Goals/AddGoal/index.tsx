@@ -126,7 +126,7 @@ const AddGoal:FunctionComponent<AddGoalProps> = ({ fetchGoals }) => {
                 : (
                   <>
                     <Grid container spacing={2}>
-                      <Grid item xs={6} md={4}>
+                      <Grid item xs={12} sm={6} md={4}>
                         <Button
                           variant="outlined"
                           color="primary"

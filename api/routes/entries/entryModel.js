@@ -9,8 +9,7 @@ const EntrySchema = new Schema({
   date: Date,
   state: {
     type: String,
-    enum: ['bad', 'neutral', 'good'],
-    default: 'neutral',
+    default: '',
   },
 })
 

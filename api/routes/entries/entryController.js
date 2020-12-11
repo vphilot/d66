@@ -1,3 +1,6 @@
+// Util
+const moment = require('moment')
+
 // Models
 const User = require('../users/userModel')
 
@@ -15,26 +18,29 @@ const getEntries = async (userId, goalId) => {
 
 const createEntry = async (userId, goalId, newEntry) => {
   try {
+    console.log(newEntry.state)
     const user = await User.findOne({ _id: userId })
     const goal = await user.goals.id(goalId)
     const { entries } = goal
+
+    // using the Find method to discover if there's an existing
+    // entry with the same date
+    const existingEntryReference = entries.find((entry) => moment(entry.date).isSame(newEntry.date, 'day'))
+    console.log(existingEntryReference)
+    // if the New Entry is the same date as an existing one, update it
+    if (existingEntryReference) {
+      const existingEntry = await goal.entries.id(existingEntryReference._id)
+      existingEntry.state = newEntry.state
+      await user.save()
+      return
+    }
+    console.log('hit this route')
+    // otherwise, proceed with creating new entry
     entries.push(newEntry)
-    const updated = await user.save()
+    await user.save()
     return
   } catch (err) {
     throw err
   }
 }
-
-const deleteEntry = async (existingGoal) => {
-  try {
-    const user = await User.findOne({ _id: existingGoal.user })
-    // pull is a mongoose method
-    user.goals.pull({ _id: existingGoal.id })
-    await user.save()
-  } catch (err) {
-    throw err
-  }
-}
-
-module.exports = { getEntries, createEntry, deleteEntry }
+module.exports = { getEntries, createEntry }

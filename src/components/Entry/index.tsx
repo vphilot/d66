@@ -3,41 +3,65 @@ import React, { FunctionComponent, useState, useEffect } from 'react'
 import { createUseStyles } from 'react-jss'
 
 // External Components
-import { Grid, Button, Typography } from '@material-ui/core'
+import {
+  Grid,
+  Button,
+  Typography,
+  ButtonBase,
+} from '@material-ui/core'
 import DayPicker from 'react-day-picker/DayPicker'
 import 'react-day-picker/lib/style.css'
 
 // Util
 import moment from 'moment'
 
+// Icons
+import CalendarTodaySharpIcon from '@material-ui/icons/CalendarTodaySharp'
+import { SadIcon, NeutralIcon, HappyIcon } from '../Icons'
+
 // Style Components
 import { D66ThemeType } from '../../styles/Theme'
-
-// Icons
-import { SadIcon, NeutralIcon, HappyIcon } from '../Icons'
 
 // Data Access
 import { Entry as EntryType } from '../../models'
 
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({
+  // TODO override these buttons more elegantly
   heading: {
     marginTop: `${theme.spacing.base}px !important`,
-    paddingTop: `${theme.spacing.base}px`,
-    borderTop: '1px solid red',
+    paddingTop: `${theme.spacing.base * 2}px`,
+    borderTop: `1px solid ${theme.colors.red}`,
+  },
+  toggleCalendar: {
+    fontSize: 'inherit',
+    verticalAlign: 'unset !important',
+    borderBottom: `2px solid ${theme.colors.red} !important`,
+    '& svg': {
+      width: '17px',
+      height: '17px',
+      marginRight: '5px',
+      marginLeft: '5px',
+    },
+  },
+  buttonsContainer: {
+    paddingTop: `${theme.spacing.base * 2}px`,
   },
   entryButton: {
-    color: theme.colors.dark,
-    opacity: '0.7',
-    '& .MuiButton-label': {
-      padding: '10px',
-      textAlign: 'left',
-      lineHeight: '100%',
-    },
+    opacity: '0.55',
     '& svg': {
       marginRight: '20px',
       width: '24px',
       height: '24px',
+    },
+    '&.selected, &.selected:hover': {
+      boxShadow: theme.boxShadow,
+      opacity: '1',
+    },
+    '& .MuiButton-label': {
+      padding: '20px 1px 20px 10px',
+      textAlign: 'left',
+      lineHeight: '100%',
     },
   },
   sad: {
@@ -64,11 +88,15 @@ const Entry:FunctionComponent<EntryProps> = ({
   entries = new Array<EntryType>(),
 }) => {
   const classes = useStyles()
-  const [currentDate, setCurrentDate] = useState(null)
-  const [currentState, setCurrentState] = useState(null)
+  const [currentDate, setCurrentDate] = useState(new Date())
+  const [currentMoodState, setcurrentMoodState] = useState(null)
+  const [isPickingNewDate, setIsPickingNewDate] = useState(false)
 
-  const addEntry = async (e) => {
-    e.preventDefault()
+  const addEntry = async (e?:React.MouseEvent<HTMLElement>) => {
+    // deciding between updating an entry or
+    // adding a new one is handled by
+    // the back end
+    if (e) e.preventDefault()
     console.log('adding entry')
     try {
       const response = await fetch(`/api/entries/${goalId}`, {
@@ -76,74 +104,116 @@ const Entry:FunctionComponent<EntryProps> = ({
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
           date: currentDate,
-          state: currentState,
+          state: currentMoodState,
         }),
       })
       const jsonResponse = await response.json()
-      alert('new entry created!')
+      console.log('new entry created / updated !')
       return
     } catch (err) {
       console.error('error creating a new entry', err)
     }
   }
 
+  useEffect(() => {
+    if (currentMoodState && currentDate) {
+      addEntry()
+    }
+  }, [currentDate, currentMoodState])
+
   return (
     <>
       <Typography variant="h5" component="h2" className={classes.heading}>
-        How did you do today?
+        How did you do
+        {' '}
+        <ButtonBase
+          disableRipple
+          disableTouchRipple
+          className={classes.toggleCalendar}
+          onClick={() => setIsPickingNewDate(true)}
+        >
+          <CalendarTodaySharpIcon />
+          {
+            moment(currentDate).isSame(new Date(), 'day')
+              ? 'today'
+              : `on ${moment(currentDate).format('ddd, MMM Do')}`
+          }
+          {' '}
+          ?
+        </ButtonBase>
       </Typography>
-      <Grid container spacing={2}>
+      {/* conditional rendering for date picker */}
+      { isPickingNewDate
+      && (
+      <Grid container>
         <Grid item xs={12}>
           <DayPicker
-            onDayClick={(day) => setCurrentDate(day)}
+            selectedDays={currentDate}
             disabledDays={{ after: new Date() }}
+            onDayClick={
+              (day) => {
+                setCurrentDate(day)
+                setcurrentMoodState(null)
+                setIsPickingNewDate(false)
+              }
+            }
           />
         </Grid>
-        <Grid item xs={12} md={4}>
+      </Grid>
+      )}
+      <Grid container className={classes.buttonsContainer} spacing={2}>
+        <Grid item xs={12} sm={4} md={4}>
           <Button
             variant="contained"
             size="small"
             fullWidth
-            className={`${classes.entryButton} ${classes.sad}`}
-            onClick={() => setCurrentState('bad')}
+            disableElevation
+            disableRipple
+            className={`
+            ${classes.entryButton} 
+            ${classes.sad}
+            ${currentMoodState === 'bad' ? 'selected' : ''}
+              `}
+            onClick={() => setcurrentMoodState('bad')}
           >
             <SadIcon />
             could be better
           </Button>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={4} md={4}>
           <Button
             variant="contained"
             size="small"
             fullWidth
-            className={`${classes.entryButton} ${classes.neutral}`}
-            onClick={() => setCurrentState('neutral')}
+            disableElevation
+            disableRipple
+            className={`
+            ${classes.entryButton} 
+            ${classes.neutral}
+            ${currentMoodState === 'neutral' ? 'selected' : ''}
+              `}
+            onClick={() => setcurrentMoodState('neutral')}
           >
             <NeutralIcon />
-            tried my best
+            <span>tried my best</span>
           </Button>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={4} md={4}>
           <Button
             variant="contained"
             size="small"
             fullWidth
-            className={`${classes.entryButton} ${classes.happy}`}
-            onClick={() => setCurrentState('good')}
+            disableElevation
+            disableRipple
+            className={`
+            ${classes.entryButton} 
+            ${classes.happy}
+            ${currentMoodState === 'good' ? 'selected' : ''}
+              `}
+            onClick={() => setcurrentMoodState('good')}
           >
             <HappyIcon />
             {'I\'m a rockstar'}
-          </Button>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Button
-            variant="contained"
-            size="small"
-            fullWidth
-            className={`${classes.entryButton}`}
-            onClick={addEntry}
-          >
-            Add Entry
           </Button>
         </Grid>
       </Grid>

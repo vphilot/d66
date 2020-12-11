@@ -42,7 +42,7 @@ const Tip:FunctionComponent = () => {
           </Grid>
           <Grid item xs={12} sm={10} md={11}>
             <Typography variant="body2" component="p">
-              Pro tip: if you click on <strong>today</strong>, you can select a past date to edit your history. We like to keep future a mystery tho.
+              Pro tip: if you click on <strong>today</strong>, you can select a past date to edit your history. We like to keep the future a mystery tho.
             </Typography>
           </Grid>
         </Grid>

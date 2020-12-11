@@ -15,7 +15,7 @@ const ReactDayPickerStyles:FunctionComponent = () => (
       color: ${d66Theme.colors.red};
       background-color: ${d66Theme.colors.white} !important;
     }
-    .DayPicker-Day:focus {
+    .DayPicker-Day:focus, .DayPicker-Day--selected {
       color: ${d66Theme.colors.white};
       background-color: ${d66Theme.colors.red} !important;
     }

@@ -26,7 +26,7 @@ export const d66Theme:D66ThemeType = {
     red: '#F53B47',
     orange: '#FF9C83',
     blue: '#6AD5D3',
-    green: '2DF092',
+    green: '#2DF092',
   },
   font: {
     family: 'SpaceGrotesk',

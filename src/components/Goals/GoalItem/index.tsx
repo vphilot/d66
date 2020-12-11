@@ -1,7 +1,6 @@
 // Dependencies
 import React, { FunctionComponent, useState } from 'react'
 import { createUseStyles } from 'react-jss'
-import moment from 'moment'
 
 // External components
 import {
@@ -13,6 +12,9 @@ import {
 // Icons
 import CloseIcon from '@material-ui/icons/Close'
 
+// Util
+import moment from 'moment'
+
 // Internal components
 import DeleteGoal from '../DeleteGoal'
 import Entry from '../../Entry'
@@ -22,9 +24,6 @@ import { Goal, Entry as EntryType } from '../../../models'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
-
-// Util
-import { generateStringFromDate } from '../../../util/helpers'
 
 // Styles
 const useStyles = createUseStyles((theme: D66ThemeType) => ({

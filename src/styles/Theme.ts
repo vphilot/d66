@@ -20,8 +20,9 @@ export type D66ThemeType = {
 export const d66Theme:D66ThemeType = {
   breakpoints: new ResponsiveHelper(BREAKPOINT_VALUES),
   colors: {
-    white: '#F53B47',
+    white: '#FFFFFF',
     light: '#C0CAD8',
+    gray: '#848D98',
     dark: '#1F4055',
     red: '#F53B47',
     orange: '#FF9C83',

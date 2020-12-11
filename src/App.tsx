@@ -20,6 +20,7 @@ import Container from '@material-ui/core/Container'
 // Style Components
 import BaseStyles from './styles/BaseStyles'
 import { d66Theme, muiTheme } from './styles/Theme'
+import ReactDayPickerStyles from './styles/ReactDayPickerStyles'
 
 // Internal Components
 import {
@@ -57,6 +58,7 @@ const App:FunctionComponent = () => {
       <MuiThemeProvider theme={muiTheme}>
         <ThemeProvider theme={d66Theme}>
           <BaseStyles />
+          <ReactDayPickerStyles />
           <Container maxWidth="lg">
             <Router>
               <Switch>

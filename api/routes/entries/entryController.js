@@ -13,12 +13,14 @@ const getEntries = async (userId, goalId) => {
   }
 }
 
-const createEntry = async (newGoal) => {
+const createEntry = async (userId, goalId, newEntry) => {
   try {
-    const user = await User.findOne({ _id: newGoal.user })
-    user.goals.push(newGoal)
+    const user = await User.findOne({ _id: userId })
+    const goal = await user.goals.id(goalId)
+    const { entries } = goal
+    entries.push(newEntry)
     const updated = await user.save()
-    return updated
+    return
   } catch (err) {
     throw err
   }

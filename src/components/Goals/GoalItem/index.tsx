@@ -14,12 +14,13 @@ import CloseIcon from '@material-ui/icons/Close'
 
 // Internal components
 import DeleteGoal from '../DeleteGoal'
+import Entry from '../../Entry'
 
 // Util
 import { generateStringFromDate } from '../../../util/helpers'
 
 // Data Access
-import { Goal } from '../../../models'
+import { Goal, Entry as EntryType } from '../../../models'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
@@ -59,7 +60,7 @@ const GoalItem:FunctionComponent<GoalItemProps> = ({
   title,
   description,
   dateCreated,
-  entries = [],
+  entries = new Array<EntryType>(),
   fetchGoals = null,
 }) => {
   const classes = useStyles()
@@ -111,10 +112,7 @@ const GoalItem:FunctionComponent<GoalItemProps> = ({
               <Typography variant="body1" component="p" className={classes.description}>
                 { description }
               </Typography>
-              <p>
-                entries:
-                {entries}
-              </p>
+              <Entry goalId={id} entries={entries} />
               <div className={classes.closeButtonContainer}>
                 <IconButton
                   color="primary"

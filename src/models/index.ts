@@ -1,5 +1,5 @@
 export interface Entry {
-  data:Date,
+  date:Date,
   state: string,
 }
 
@@ -8,5 +8,5 @@ export interface Goal {
   title: string,
   description: string,
   dateCreated: Date,
-  entries: Array<Entry>
+  entries?: Array<Entry>
 }

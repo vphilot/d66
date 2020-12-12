@@ -36,6 +36,7 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
     position: 'relative',
   },
   title: {
+    width: '90%',
     paddingBottom: `${theme.spacing.base / 2}px`,
   },
   dateCreated: {

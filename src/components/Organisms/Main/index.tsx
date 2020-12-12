@@ -10,6 +10,7 @@ import AddGoal from '../../Goals/AddGoal'
 import GoalItem from '../../Goals/GoalItem'
 import AppBar from '../../Molecules/AppBar'
 import Tip from '../../Molecules/Tip'
+import WelcomeMessage from '../../Molecules/WelcomeMessage'
 
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
@@ -46,10 +47,14 @@ const Main: FunctionComponent<MainProps> = ({ setUser }) => {
   return (
     <>
       <AppBar setUser={setUser} />
-      {/* TODO add your first goal message */}
+      {/* first goal message */}
+      { (goals && goals.length === 0)
+        && (
+          <WelcomeMessage />
+        )}
       {/* handle adding a new goal */}
       <AddGoal fetchGoals={() => fetchGoals()} />
-      {/* display all goals */}
+      {/* display all goals sorted by most recent */}
       { goals
       && goals
         .sort((a, b) => new Date(b.dateCreated).valueOf() - new Date(a.dateCreated).valueOf())

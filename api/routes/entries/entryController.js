@@ -17,14 +17,15 @@ const getEntries = async (userId, goalId) => {
 }
 
 const createEntry = async (userId, goalId, newEntry) => {
+  // TODO why did I make everything a subdoc??
   try {
     console.log(newEntry.state)
     const user = await User.findOne({ _id: userId })
     const goal = await user.goals.id(goalId)
     const { entries } = goal
 
-    // using the Find method to discover if there's an existing
-    // entry with the same date
+    // using the Find method to discover if there's
+    // an existing entry with the same date
     const existingEntryReference = entries.find((entry) => moment(entry.date).isSame(newEntry.date, 'day'))
     console.log(existingEntryReference)
     // if the New Entry is the same date as an existing one, update it

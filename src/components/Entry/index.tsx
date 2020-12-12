@@ -44,6 +44,9 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
       marginLeft: '5px',
     },
   },
+  dayPickerContainer: {
+    paddingTop: `${theme.spacing.base}px`,
+  },
   buttonsContainer: {
     paddingTop: `${theme.spacing.base * 2}px`,
   },
@@ -145,7 +148,7 @@ const Entry:FunctionComponent<EntryProps> = ({
       {/* conditional rendering for date picker */}
       { isPickingNewDate
       && (
-      <Grid container>
+      <Grid container className={classes.dayPickerContainer}>
         <Grid item xs={12}>
           <DayPicker
             selectedDays={currentDate}

@@ -83,7 +83,7 @@ const App:FunctionComponent = () => {
                     return (
                       <>
                         <AppBar setUser={setUser} />
-                        <Timeline />
+                        <Timeline goals={user.goals} />
                       </>
                     )
                   }}

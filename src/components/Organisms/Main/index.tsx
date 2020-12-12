@@ -8,7 +8,6 @@ import { Grid, Button } from '@material-ui/core'
 // Internal Components
 import AddGoal from '../../Goals/AddGoal'
 import GoalItem from '../../Goals/GoalItem'
-import AppBar from '../../Molecules/AppBar'
 import Tip from '../../Molecules/Tip'
 import WelcomeMessage from '../../Molecules/WelcomeMessage'
 

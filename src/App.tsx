@@ -28,6 +28,8 @@ import {
   Signup,
   Login,
   Main,
+  Timeline,
+  AppBar,
 } from './components'
 
 const App:FunctionComponent = () => {
@@ -73,12 +75,31 @@ const App:FunctionComponent = () => {
                   render={() => <Login getUser={getUser} />}
                 />
                 <Route
+                  path="/timeline"
+                  render={() => {
+                    if (!user) {
+                      return <Home />
+                    }
+                    return (
+                      <>
+                        <AppBar setUser={setUser} />
+                        <Timeline />
+                      </>
+                    )
+                  }}
+                />
+                <Route
                   path="/"
                   render={() => {
                     if (!user) {
                       return <Home />
                     }
-                    return <Main setUser={setUser} />
+                    return (
+                      <>
+                        <AppBar setUser={setUser} />
+                        <Main setUser={setUser} />
+                      </>
+                    )
                   }}
                 />
               </Switch>

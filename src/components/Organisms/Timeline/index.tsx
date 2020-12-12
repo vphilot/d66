@@ -36,7 +36,7 @@ type SignUpProps = {
   getUser: () => Promise<void>,
 }
 
-const Timeline: FunctionComponent<SignUpProps> = () => {
+const Timeline: FunctionComponent = () => {
   const classes = useStyles()
   return (
     <>

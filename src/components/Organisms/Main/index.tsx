@@ -46,7 +46,6 @@ const Main: FunctionComponent<MainProps> = ({ setUser }) => {
 
   return (
     <>
-      <AppBar setUser={setUser} />
       {/* first goal message */}
       { (goals && goals.length === 0)
         && (

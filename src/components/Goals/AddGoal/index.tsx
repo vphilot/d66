@@ -112,7 +112,8 @@ const AddGoal:FunctionComponent<AddGoalProps> = ({ fetchGoals }) => {
                           disableRipple
                           disabled={
                             !(
-                              validateInputHelper('generic', title)
+                              validateInputHelper('notEmpty', title)
+                              && validateInputHelper('notEmpty', description)
                               && !error
                             )
                           }

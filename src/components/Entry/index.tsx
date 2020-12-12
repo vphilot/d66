@@ -62,6 +62,7 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
       opacity: '1',
     },
     '& .MuiButton-label': {
+      color: theme.colors.dark,
       padding: '20px 1px 20px 10px',
       textAlign: 'left',
       lineHeight: '100%',

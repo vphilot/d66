@@ -23,7 +23,7 @@ app.use('/api/users', userRouter)
 app.use('/api/goals', goalRouter)
 app.use('/api/entries', entryRouter)
 
-mongoose.connect('mongodb://localhost/d66', {
+mongoose.connect(DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

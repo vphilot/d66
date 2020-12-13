@@ -3,16 +3,6 @@ import React, { FunctionComponent } from 'react'
 import { createUseStyles } from 'react-jss'
 import moment from 'moment'
 
-// External Components
-import {
-  Grid,
-  TextField,
-  Button,
-  Typography,
-  InputAdornment,
-  Chip,
-} from '@material-ui/core'
-
 // Style Components
 import { D66ThemeType } from '../../../styles/Theme'
 
@@ -40,6 +30,16 @@ const useStyles = createUseStyles((theme: D66ThemeType) => ({
   entryCell: {
     flexGrow: 1,
     height: '100%',
+  },
+  monthCell: {
+    fontSize: '11px',
+    '& p': {
+      transform: 'rotateZ(-90deg)',
+      transformOrigin: 'center center',
+    },
+    '& ::first-child': {
+      color: 'blue',
+    },
   },
   badState: {
     backgroundColor: theme.colors.orange,
@@ -79,6 +79,12 @@ const Timeline: FunctionComponent<TimelineProps> = ({ goals }) => {
     }
   }
 
+  const checkForMonthChange = (currentEntry:Date, nextEntry:Date):boolean => {
+    const currentEntryMoment = moment(currentEntry).format('MMM')
+    const nextEntryMoment = moment(nextEntry).format('MMM')
+    return currentEntryMoment === nextEntryMoment
+  }
+
   return (
     <div className={classes.timelineContainer}>
       {
@@ -89,25 +95,37 @@ const Timeline: FunctionComponent<TimelineProps> = ({ goals }) => {
             </div>
             {
               goal.entries.map((entry, index) => (
-                <div
-                  className={`
-                    ${classes.entryCell}
-                    ${generateEntryClassName(entry.state)}
-                  `}
-                  key={entry.date.toString()}
-                >
-                  <>
-                    {
-                      (index < (goal.entries.length - 1))
-                      && (
-                        !(moment(entry.date).format('MMM') === moment(goal.entries[index + 1].date).format('MMM'))
-                        && (
-                          <p>{moment(entry.date).format('MMM')}</p>
-                        )
-                      )
-                    }
-                  </>
-                </div>
+                <>
+                  {/* render first month */}
+                  {
+                    index === 0
+                    && (
+                      <div className={classes.monthCell}>
+                        <p>{moment(entry.date).format('MMM')}</p>
+                      </div>
+                    )
+                  }
+                  {/* identify month changes
+                  so we can render them in the timeline */}
+                  {
+                    (index < (goal.entries.length - 1)
+                    && !(checkForMonthChange(entry.date, goal.entries[index + 1].date)))
+                    && (
+                      <div className={classes.monthCell}>
+                        <p>{moment(goal.entries[index + 1].date).format('MMM')}</p>
+                      </div>
+                    )
+                  }
+                  {/* rendering each entry div with a different color
+                  corresponding to its state */}
+                  <div
+                    className={`
+                      ${classes.entryCell}
+                      ${generateEntryClassName(entry.state)}
+                    `}
+                    key={entry.date.toString()}
+                  />
+                </>
               ))
             }
           </div>

@@ -36,9 +36,32 @@ const useStyles = createUseStyles((theme:D66ThemeType) => ({
   },
 }))
 
-const Home:FunctionComponent = () => {
+// Types
+type HomeProps = {
+  setUser: React.Dispatch<any>,
+}
+
+const Home:FunctionComponent<HomeProps> = ({ setUser }) => {
   const classes = useStyles()
   const history = useHistory()
+
+  const getDemoUser = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await fetch('/api/users/demo')
+      const jsonResponse = await response.json()
+
+      if (!response.ok) {
+        console.log('error fetching demo user')
+        return
+      }
+      // happy path
+      setUser(jsonResponse)
+      history.push('/')
+    } catch (err) {
+      throw err
+    }
+  }
 
   return (
     <>
@@ -77,6 +100,7 @@ const Home:FunctionComponent = () => {
                 color="primary"
                 fullWidth
                 disableRipple
+                onClick={(e) => getDemoUser(e)}
               >
                 Take a tour
               </Button>

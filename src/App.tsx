@@ -78,7 +78,7 @@ const App:FunctionComponent = () => {
                   path="/timeline"
                   render={() => {
                     if (!user) {
-                      return <Home />
+                      return <Home setUser={setUser} />
                     }
                     return (
                       <>
@@ -92,7 +92,7 @@ const App:FunctionComponent = () => {
                   path="/"
                   render={() => {
                     if (!user) {
-                      return <Home />
+                      return <Home setUser={setUser} />
                     }
                     return (
                       <>

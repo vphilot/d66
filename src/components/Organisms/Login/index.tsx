@@ -21,7 +21,6 @@ import { D66ThemeType } from '../../../styles/Theme'
 
 // Internal Components
 import Logo from '../../Molecules/Logo'
-import Disclaimer from '../../Molecules/Disclaimer'
 
 // Util
 import { validateInputHelper } from '../../../util/helpers'
@@ -160,7 +159,6 @@ const Signup: FunctionComponent<SignUpProps> = ({ getUser }) => {
           </Grid>
         </Grid>
       </form>
-      <Disclaimer />
     </>
   )
 }

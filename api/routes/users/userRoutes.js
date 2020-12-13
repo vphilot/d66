@@ -120,6 +120,23 @@ router.route('/logout')
     }
   })
 
+router.route('/demo')
+  .get(async (req, res) => {
+    try {
+      const token = createTokenService({ id: '5fd6870dc2d0d94a0ccad8bb' })
+      res.cookie('token', token)
+      const user = await findUserById('5fd6870dc2d0d94a0ccad8bb' )
+      return res.status(200).json({
+        message: 'logged in successfully',
+        data: user,
+      })
+    } catch (err) {
+      res.status(500).json({
+        message: 'could\nt load Demo user',
+      })
+    }
+  })
+
 router.use(verifyToken)
   .route('/me')
   .get(async (req, res) => {
@@ -134,5 +151,7 @@ router.use(verifyToken)
       })
     }
   })
+
+
 
 module.exports = router

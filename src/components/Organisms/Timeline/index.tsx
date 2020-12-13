@@ -95,7 +95,7 @@ const Timeline: FunctionComponent<TimelineProps> = ({ goals }) => {
             </div>
             {
               goal.entries.map((entry, index) => (
-                <>
+                <React.Fragment key={entry.date.toString()}>
                   {/* render first month */}
                   {
                     index === 0
@@ -125,7 +125,7 @@ const Timeline: FunctionComponent<TimelineProps> = ({ goals }) => {
                     `}
                     key={entry.date.toString()}
                   />
-                </>
+                </React.Fragment>
               ))
             }
           </div>

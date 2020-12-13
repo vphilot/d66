@@ -32,7 +32,6 @@ const Main: FunctionComponent<MainProps> = ({ setUser }) => {
     try {
       const response = await fetch('/api/goals')
       const jsonResponse = await response.json()
-      console.log(jsonResponse.data)
       setGoals(jsonResponse.data)
     } catch (err) {
       console.error('Fetching all user goals failed with the error', err)

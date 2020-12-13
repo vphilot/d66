@@ -53,7 +53,7 @@ const App:FunctionComponent = () => {
   useEffect(() => {
     getUser()
   },
-  [getUser])
+  [getUser, user])
 
   return (
     <>

@@ -123,9 +123,9 @@ router.route('/logout')
 router.route('/demo')
   .get(async (req, res) => {
     try {
-      const token = createTokenService({ id: '5fd6870dc2d0d94a0ccad8bb' })
+      const token = createTokenService({ id: process.env.DEMO_USER_ID })
       res.cookie('token', token)
-      const user = await findUserById('5fd6870dc2d0d94a0ccad8bb' )
+      const user = await findUserById(process.env.DEMO_USER_ID)
       return res.status(200).json({
         message: 'logged in successfully',
         data: user,
